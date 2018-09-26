@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xin.snowsteps.dao.LeaveBillMapper" >
+  <resultMap id="BaseResultMap" type="xin.snowsteps.pojo.LeaveBill" >
+    <constructor >
+      <idArg column="leave_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="days" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="content" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="starttime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="remark" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="state" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    leave_id, days, content, starttime, remark, user_id, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from leave_bill
+    where leave_id = #{leaveId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from leave_bill
+    where leave_id = #{leaveId,jdbcType=INTEGER}
+  </delete>
+  <!--
+  <insert id="insert" parameterType="xin.snowsteps.pojo.LeaveBill" >
+    insert into leave_bill (leave_id, days, content, 
+      starttime, remark, user_id, 
+      state)
+    values (#{leaveId,jdbcType=INTEGER}, #{days,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      now(), #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  -->
+  <insert id="insert" parameterType="xin.snowsteps.pojo.LeaveBill" >
+    insert into leave_bill (days, content, 
+      starttime, remark, user_id, 
+      state)
+    values (#{days,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      now(), #{remark,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{state,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="xin.snowsteps.pojo.LeaveBill" >
+    insert into leave_bill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="leaveId != null" >
+        leave_id,
+      </if>
+      <if test="days != null" >
+        days,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="starttime == null" >
+        starttime,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="leaveId != null" >
+        #{leaveId,jdbcType=INTEGER},
+      </if>
+      <if test="days != null" >
+        #{days,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime == null" >
+        now(),
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="xin.snowsteps.pojo.LeaveBill" >
+    update leave_bill
+    <set >
+      <if test="days != null" >
+        days = #{days,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        starttime = now(),
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=INTEGER},
+      </if>
+    </set>
+    where leave_id = #{leaveId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xin.snowsteps.pojo.LeaveBill" >
+    update leave_bill
+    set days = #{days,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      starttime = now(),
+      remark = #{remark,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      state = #{state,jdbcType=INTEGER}
+    where leave_id = #{leaveId,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectListByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from leave_bill
+    where user_id = #{userId,jdbcType=INTEGER}
+    ORDER BY leave_id ASC
+  </select>
+</mapper>
